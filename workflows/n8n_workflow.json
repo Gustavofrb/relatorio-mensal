@@ -1,0 +1,187 @@
+{
+  "name": "Fechamento Mensal - Automação Seazone",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 0 1 * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger - Todo dia 1º do mês",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "notes": "Executa todo dia 1º do mês às 00:00 para processar o fechamento do mês anterior"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://app:8000/run",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"month\": \"{{ $now.minus({months: 1}).toFormat('yyyy-MM') }}\" }",
+        "options": {
+          "timeout": 600000
+        }
+      },
+      "id": "execute-python",
+      "name": "Execute Python Script",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300],
+      "notes": "Chama API HTTP do container da aplicação para executar o fechamento"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.exitCode }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-success",
+      "name": "Check Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "notes": "Verifica se o processamento foi bem-sucedido (exitCode = 0)"
+    },
+    {
+      "parameters": {
+        "fromEmail": "automacao@seazone.com",
+        "toEmail": "equipe@seazone.com",
+        "subject": "✅ Fechamento Mensal {{ $now.minus({months: 1}).toFormat('MM/yyyy') }} - Concluído",
+        "emailType": "html",
+        "message": "=<h2>✅ Fechamento Mensal Concluído com Sucesso</h2>\n<p><strong>Mês de Referência:</strong> {{ $now.minus({months: 1}).toFormat('MMMM/yyyy') }}</p>\n<p><strong>Executado em:</strong> {{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}</p>\n\n<h3>📊 Relatórios Gerados:</h3>\n<ul>\n  <li>✅ Relatório Financeiro (relatorio_financeiro.csv)</li>\n  <li>✅ Relatório de Qualidade (relatorio_qualidade.csv)</li>\n  <li>✅ Relatório de Ocupação (relatorio_ocupacao.csv)</li>\n  <li>✅ Feedbacks Classificados por IA (feedbacks_classificados.csv)</li>\n  <li>✅ Resumo Executivo com IA (resumo_executivo.txt)</li>\n  <li>✅ Insights de IA por Propriedade (insights_ia.csv)</li>\n</ul>\n\n<h3>📋 Log de Execução:</h3>\n<pre style=\"background: #f5f5f5; padding: 10px; border-left: 3px solid #4caf50;\">{{ $node[\"Execute Python Script\"].json[\"stdout\"] }}</pre>\n\n<p><em>Todos os relatórios estão disponíveis em: <code>src/output/</code></em></p>\n<p><em>Banco de dados atualizado: <code>src/data/database.sqlite</code></em></p>",
+        "options": {}
+      },
+      "id": "email-success",
+      "name": "Send Success Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [850, 200],
+      "notes": "Envia email de sucesso com resumo da execução"
+    },
+    {
+      "parameters": {
+        "fromEmail": "automacao@seazone.com",
+        "toEmail": "ti@seazone.com,operacoes@seazone.com",
+        "subject": "❌ ERRO - Fechamento Mensal {{ $now.minus({months: 1}).toFormat('MM/yyyy') }}",
+        "emailType": "html",
+        "message": "=<h2 style=\"color: #d32f2f;\">❌ Erro no Fechamento Mensal</h2>\n<p><strong>Mês de Referência:</strong> {{ $now.minus({months: 1}).toFormat('MMMM/yyyy') }}</p>\n<p><strong>Tentativa em:</strong> {{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}</p>\n\n<h3>🔴 Detalhes do Erro:</h3>\n<pre style=\"background: #ffebee; padding: 10px; border-left: 4px solid #d32f2f; color: #c62828;\">{{ $node[\"Execute Python Script\"].json[\"stderr\"] }}</pre>\n\n<h3>📋 Output do Sistema:</h3>\n<pre style=\"background: #f5f5f5; padding: 10px;\">{{ $node[\"Execute Python Script\"].json[\"stdout\"] }}</pre>\n\n<h3>⚠️ Ação Necessária:</h3>\n<ul>\n  <li>Verifique o log completo em: <code>src/output/run.log</code></li>\n  <li>Verifique o banco de dados: <code>src/data/database.sqlite</code></li>\n  <li>Corrija o problema e execute manualmente: <code>python main.py --month={{ $now.minus({months: 1}).toFormat('yyyy-MM') }}</code></li>\n  <li>Se necessário, contate a equipe de desenvolvimento</li>\n</ul>\n\n<p><strong>Exit Code:</strong> {{ $node[\"Execute Python Script\"].json[\"exitCode\"] }}</p>",
+        "options": {}
+      },
+      "id": "email-error",
+      "name": "Send Error Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [850, 400],
+      "notes": "Envia email de erro detalhado para TI e Operações"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"🚨 *ERRO no Fechamento Mensal*\",\n  \"blocks\": [\n    {\n      \"type\": \"header\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": \"🚨 Erro no Fechamento Mensal\"\n      }\n    },\n    {\n      \"type\": \"section\",\n      \"fields\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Mês:*\\n{{ $now.minus({months: 1}).toFormat('MM/yyyy') }}\"\n        },\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"*Horário:*\\n{{ $now.toFormat('dd/MM/yyyy HH:mm') }}\"\n        }\n      ]\n    },\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Erro:*\\n```{{ $node[\\\"Execute Python Script\\\"].json[\\\"stderr\\\"] }}```\"\n      }\n    },\n    {\n      \"type\": \"context\",\n      \"elements\": [\n        {\n          \"type\": \"mrkdwn\",\n          \"text\": \"Exit Code: {{ $node[\\\"Execute Python Script\\\"].json[\\\"exitCode\\\"] }} | Verifique o log em `src/output/run.log`\"\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "slack-alert",
+      "name": "Send Slack Alert (OPCIONAL)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 500],
+      "notes": "Envia alerta detalhado para o canal do Slack (Configure SLACK_WEBHOOK_URL nas variáveis de ambiente)"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger - Todo dia 1º do mês": {
+      "main": [
+        [
+          {
+            "node": "Execute Python Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Python Script": {
+      "main": [
+        [
+          {
+            "node": "Check Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Success": {
+      "main": [
+        [
+          {
+            "node": "Send Success Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Error Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-11-05T00:00:00.000Z",
+      "updatedAt": "2025-11-05T00:00:00.000Z",
+      "id": "1",
+      "name": "automacao"
+    },
+    {
+      "createdAt": "2025-11-05T00:00:00.000Z",
+      "updatedAt": "2025-11-05T00:00:00.000Z",
+      "id": "2",
+      "name": "seazone"
+    },
+    {
+      "createdAt": "2025-11-05T00:00:00.000Z",
+      "updatedAt": "2025-11-05T00:00:00.000Z",
+      "id": "3",
+      "name": "fechamento-mensal"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-05T12:00:00.000Z",
+  "versionId": "2"
+}

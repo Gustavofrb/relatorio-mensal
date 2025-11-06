@@ -1,0 +1,24 @@
+# Core dependencies
+pandas>=2.0.0
+requests>=2.31.0
+python-dateutil>=2.8.2
+flask>=3.0.0  # Para API HTTP server
+
+# Optional: AI/LLM features
+openai>=1.0.0  # Para funcionalidades de IA (classificação, chatbot)
+
+# Optional: Advanced reporting
+reportlab>=4.0.0  # Para geração de PDFs
+matplotlib>=3.7.0  # Para gráficos
+seaborn>=0.12.0  # Para visualizações
+
+# Optional: Database migration
+psycopg2-binary>=2.9.0  # Para PostgreSQL/Supabase
+sqlalchemy>=2.0.0  # ORM para múltiplos bancos
+
+# Development
+pytest>=7.4.0  # Para testes unitários
+black>=23.0.0  # Formatação de código
+flake8>=6.0.0  # Linter
+python-dateutil
+matplotlib
