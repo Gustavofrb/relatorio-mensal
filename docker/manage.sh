@@ -120,7 +120,7 @@ case "${1:-help}" in
         echo -e "${BLUE} Importando workflow no N8N...${NC}"
         echo ""
         echo "1. Acesse: http://localhost:5678"
-        echo "2. Faça login (admin / seazone2025)"
+        echo "2. Faça login (admin / admin2025)"
         echo "3. Clique em '+' → 'Import from File'"
         echo "4. Selecione: workflows/n8n_workflow.json"
         echo "5. Configure credenciais SMTP (opcional)"

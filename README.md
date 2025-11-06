@@ -1,4 +1,4 @@
-# 🏠 Sistema de Fechamento Mensal Automatizado - Seazone Tech
+# 🏠 Sistema de Fechamento Mensal Automatizado -  Tech
 
 > Solução completa para automação do fechamento mensal de imóveis de temporada, eliminando processos manuais e criando uma fonte única da verdade para dados operacionais.
 
@@ -183,10 +183,10 @@ API Mock (3 fontes) → Data Collector → Transformer → SQLite DB
 6. **Distribuição** (`notification_service.py`)
    ```python
    # Envia relatórios segmentados:
-   - Financeiro → financeiro@seazone.com
-   - Qualidade → suporte@seazone.com + operacoes@seazone.com
-   - Ocupação → operacoes@seazone.com
-   - Resumo Executivo → diretoria@seazone.com
+   - Financeiro → financeiro@company.com
+   - Qualidade → suporte@company.com + operacoes@company.com
+   - Ocupação → operacoes@company.com
+   - Resumo Executivo → diretoria@company.com
    
    # Alertas no Slack
    - Canal #operations: notificação de sucesso/erro
@@ -245,16 +245,16 @@ Crie um arquivo `.env` na raiz do projeto:
 # SMTP para envio de emails
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=automacao@seazone.com
+SMTP_USER=automacao@company.com
 SMTP_PASSWORD=sua_senha_app
 
 # Destinatários por equipe
-FROM_EMAIL=automacao@seazone.com
-FINANCE_EMAILS=financeiro@seazone.com
-OPERATIONS_EMAILS=operacoes@seazone.com
-SUPPORT_EMAILS=suporte@seazone.com
-IT_EMAILS=ti@seazone.com
-LEADERSHIP_EMAILS=diretoria@seazone.com
+FROM_EMAIL=automacao@company.com
+FINANCE_EMAILS=financeiro@company.com
+OPERATIONS_EMAILS=operacoes@company.com
+SUPPORT_EMAILS=suporte@company.com
+IT_EMAILS=ti@company.com
+LEADERSHIP_EMAILS=diretoria@company.com
 
 # Webhook Slack (opcional)
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
@@ -324,7 +324,7 @@ src/
 
 1. **Importar workflow** no n8n
 2. **Configurar credenciais:**
-   - API Token Seazone
+   - API Token 
    - Credenciais SMTP
    - Webhook Slack
    - Conexão PostgreSQL/Supabase (para logs)
@@ -646,14 +646,14 @@ def get_property_details(property_id):
 # AWS S3 / Google Cloud Storage
 s3_client.upload_file(
     'relatorio_financeiro.csv',
-    'seazone-reports',
+    '-reports',
     f'reports/{year}/{month}/financeiro.csv'
 )
 
 # Gerar URLs assinadas para acesso temporário
 url = s3_client.generate_presigned_url(
     'get_object',
-    Params={'Bucket': 'seazone-reports', 'Key': 'reports/2025/10/financeiro.csv'},
+    Params={'Bucket': '-reports', 'Key': 'reports/2025/10/financeiro.csv'},
     ExpiresIn=3600
 )
 ```
@@ -897,13 +897,13 @@ Este é um projeto técnico de avaliação, mas sugestões são bem-vindas:
 
 ## 📄 Licença
 
-Este projeto foi desenvolvido como parte de um desafio técnico para Seazone Tech.
+Este projeto foi desenvolvido como parte de um desafio técnico para  Tech.
 
 ---
 
 ## 👤 Autor
 
-**Desenvolvido como solução para o Desafio Técnico Seazone**
+**Desenvolvido como solução para o Desafio Técnico **
 
 🚀 **Stack:** Python, SQLite, n8n, GitHub Actions, OpenAI API  
 📅 **Data:** Novembro 2025  
@@ -913,7 +913,7 @@ Este projeto foi desenvolvido como parte de um desafio técnico para Seazone Tec
 
 ## 🔗 Links Úteis
 
-- [Documentação da API Mock](https://desafio-tecnico-seazone-tech.vercel.app/docs)
+- [Documentação da API Mock](https://desafio-tecnico--tech.vercel.app/docs)
 - [Schema do Banco de Dados](docs/SCHEMA.md)
 - [Workflow n8n](workflows/n8n_workflow.json)
 - [GitHub Actions Workflow](.github/workflows/monthly-closing.yml)

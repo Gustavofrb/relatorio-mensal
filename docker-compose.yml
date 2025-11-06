@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: seazone-fechamento
+    container_name: app-fechamento
     ports:
       - "8000:8000"  
     volumes:
@@ -29,14 +29,14 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD:-}
       - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
     networks:
-      - seazone-network
+      - app-network
     restart: unless-stopped
     command: python3 /app/api_server.py  # Inicia servidor HTTP
 
   # N8N - Automação de Workflows
   n8n:
     image: n8nio/n8n:latest
-    container_name: seazone-n8n
+    container_name: app-n8n
     ports:
       - "5678:5678"
     volumes:
@@ -50,7 +50,7 @@ services:
       # Configurações básicas
       - N8N_BASIC_AUTH_ACTIVE=true
       - N8N_BASIC_AUTH_USER=${N8N_USER:-admin}
-      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:-seazone2025}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:-admin2025}
       
       # Timezone
       - GENERIC_TIMEZONE=America/Sao_Paulo
@@ -73,7 +73,7 @@ services:
       - N8N_SECURE_COOKIE=false  # true em produção com HTTPS
       
     networks:
-      - seazone-network
+      - app-network
     restart: unless-stopped
     depends_on:
       - app
@@ -89,7 +89,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: seazone-n8n-init
+    container_name: app-n8n-init
     volumes:
       - ./workflows:/workflows:ro
       - ./docker/import_workflow.py:/import_workflow.py:ro
@@ -97,7 +97,7 @@ services:
       - N8N_URL=http://n8n:5678
       - N8N_API_KEY=${N8N_API_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNGU2YjQ3Ni1lMjhmLTQ2YjItYmY1NS0zMDQxY2E0ZDI0MDAiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzYyMzcyNzkxLCJleHAiOjE3NjQ5MDM2MDB9.l8wUvEVqxZs_s_r3bygqcTOdwEKb-ZxVdIv1WhN0FVM}
     networks:
-      - seazone-network
+      - app-network
     depends_on:
       n8n:
         condition: service_healthy
@@ -108,7 +108,7 @@ services:
   # Descomente se quiser persistir histórico de execuções
   # postgres:
   #   image: postgres:15-alpine
-  #   container_name: seazone-postgres
+  #   container_name: app-postgres
   #   environment:
   #     - POSTGRES_DB=n8n
   #     - POSTGRES_USER=n8n
@@ -116,11 +116,11 @@ services:
   #   volumes:
   #     - postgres_data:/var/lib/postgresql/data
   #   networks:
-  #     - seazone-network
+  #     - app-network
   #   restart: unless-stopped
 
 networks:
-  seazone-network:
+  app-network:
     driver: bridge
 
 volumes:

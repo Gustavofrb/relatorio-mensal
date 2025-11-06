@@ -1,5 +1,5 @@
 {
-  "name": "Fechamento Mensal - Automação Seazone",
+  "name": "Fechamento Mensal - Automação ",
   "nodes": [
     {
       "parameters": {
@@ -68,8 +68,8 @@
     },
     {
       "parameters": {
-        "fromEmail": "automacao@seazone.com",
-        "toEmail": "equipe@seazone.com",
+        "fromEmail": "automacao@company.com",
+        "toEmail": "equipe@company.com",
         "subject": "✅ Fechamento Mensal {{ $now.minus({months: 1}).toFormat('MM/yyyy') }} - Concluído",
         "emailType": "html",
         "message": "=<h2>✅ Fechamento Mensal Concluído com Sucesso</h2>\n<p><strong>Mês de Referência:</strong> {{ $now.minus({months: 1}).toFormat('MMMM/yyyy') }}</p>\n<p><strong>Executado em:</strong> {{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}</p>\n\n<h3>📊 Relatórios Gerados:</h3>\n<ul>\n  <li>✅ Relatório Financeiro (relatorio_financeiro.csv)</li>\n  <li>✅ Relatório de Qualidade (relatorio_qualidade.csv)</li>\n  <li>✅ Relatório de Ocupação (relatorio_ocupacao.csv)</li>\n  <li>✅ Feedbacks Classificados por IA (feedbacks_classificados.csv)</li>\n  <li>✅ Resumo Executivo com IA (resumo_executivo.txt)</li>\n  <li>✅ Insights de IA por Propriedade (insights_ia.csv)</li>\n</ul>\n\n<h3>📋 Log de Execução:</h3>\n<pre style=\"background: #f5f5f5; padding: 10px; border-left: 3px solid #4caf50;\">{{ $node[\"Execute Python Script\"].json[\"stdout\"] }}</pre>\n\n<p><em>Todos os relatórios estão disponíveis em: <code>src/output/</code></em></p>\n<p><em>Banco de dados atualizado: <code>src/data/database.sqlite</code></em></p>",
@@ -84,8 +84,8 @@
     },
     {
       "parameters": {
-        "fromEmail": "automacao@seazone.com",
-        "toEmail": "ti@seazone.com,operacoes@seazone.com",
+        "fromEmail": "automacao@company.com",
+        "toEmail": "ti@company.com,operacoes@company.com",
         "subject": "❌ ERRO - Fechamento Mensal {{ $now.minus({months: 1}).toFormat('MM/yyyy') }}",
         "emailType": "html",
         "message": "=<h2 style=\"color: #d32f2f;\">❌ Erro no Fechamento Mensal</h2>\n<p><strong>Mês de Referência:</strong> {{ $now.minus({months: 1}).toFormat('MMMM/yyyy') }}</p>\n<p><strong>Tentativa em:</strong> {{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}</p>\n\n<h3>🔴 Detalhes do Erro:</h3>\n<pre style=\"background: #ffebee; padding: 10px; border-left: 4px solid #d32f2f; color: #c62828;\">{{ $node[\"Execute Python Script\"].json[\"stderr\"] }}</pre>\n\n<h3>📋 Output do Sistema:</h3>\n<pre style=\"background: #f5f5f5; padding: 10px;\">{{ $node[\"Execute Python Script\"].json[\"stdout\"] }}</pre>\n\n<h3>⚠️ Ação Necessária:</h3>\n<ul>\n  <li>Verifique o log completo em: <code>src/output/run.log</code></li>\n  <li>Verifique o banco de dados: <code>src/data/database.sqlite</code></li>\n  <li>Corrija o problema e execute manualmente: <code>python main.py --month={{ $now.minus({months: 1}).toFormat('yyyy-MM') }}</code></li>\n  <li>Se necessário, contate a equipe de desenvolvimento</li>\n</ul>\n\n<p><strong>Exit Code:</strong> {{ $node[\"Execute Python Script\"].json[\"exitCode\"] }}</p>",
@@ -172,7 +172,7 @@
       "createdAt": "2025-11-05T00:00:00.000Z",
       "updatedAt": "2025-11-05T00:00:00.000Z",
       "id": "2",
-      "name": "seazone"
+      "name": ""
     },
     {
       "createdAt": "2025-11-05T00:00:00.000Z",

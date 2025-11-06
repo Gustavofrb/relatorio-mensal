@@ -1,8 +1,8 @@
-# Dockerfile para Fechamento Mensal Seazone
+# Dockerfile para Fechamento Mensal
 FROM python:3.11-slim
 
 # Metadados
-LABEL maintainer="Seazone Tech Team"
+LABEL maintainer="Monthly Closing System"
 LABEL description="Automação de Fechamento Mensal - Pipeline de Dados e IA"
 
 # Diretório de trabalho

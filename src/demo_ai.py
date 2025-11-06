@@ -127,7 +127,7 @@ def demo_chatbot():
         chatbot.close()
         return
     
-    print("\n Chatbot Seazone - Pronto para responder perguntas!")
+    print("\n Chatbot  - Pronto para responder perguntas!")
     print("   (digite 'sair' para encerrar)")
     
     perguntas_exemplo = [
@@ -219,7 +219,7 @@ def main():
     """
     print("\n" + " "* 20)
     print("DEMONSTRAÇÃO DE FUNCIONALIDADES DE IA")
-    print("Sistema de Fechamento Mensal - Seazone Tech")
+    print("Sistema de Fechamento Mensal -  Tech")
     print(" " * 20)
     
     # Verificar se OpenAI está configurada

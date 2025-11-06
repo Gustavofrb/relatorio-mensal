@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Inicializando Seazone - Fechamento Mensal..."
+echo "Inicializando  - Fechamento Mensal..."
 
 # Verificar e criar diretórios necessários
 mkdir -p /app/src/data /app/src/output
@@ -31,7 +31,7 @@ echo "   docker-compose exec app python -m src.main --month=2025-10"
 echo ""
 echo "N8N disponível em: http://localhost:5678"
 echo "   Usuário: ${N8N_USER:-admin}"
-echo "   Senha: ${N8N_PASSWORD:-seazone2025}"
+echo "   Senha: ${N8N_PASSWORD:-admin2025}"
 echo ""
 
 exec "$@"

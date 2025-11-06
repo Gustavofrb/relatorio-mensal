@@ -21,12 +21,12 @@ class NotificationService:
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
         self.smtp_user = os.getenv("SMTP_USER", "")
         self.smtp_password = os.getenv("SMTP_PASSWORD", "")
-        self.from_email = os.getenv("FROM_EMAIL", "automacao@seazone.com")
+        self.from_email = os.getenv("FROM_EMAIL", "automacao@company.com")
         
-        self.finance_team = os.getenv("FINANCE_EMAILS", "financeiro@seazone.com").split(",")
-        self.operations_team = os.getenv("OPERATIONS_EMAILS", "operacoes@seazone.com").split(",")
-        self.support_team = os.getenv("SUPPORT_EMAILS", "suporte@seazone.com").split(",")
-        self.it_team = os.getenv("IT_EMAILS", "ti@seazone.com").split(",")
+        self.finance_team = os.getenv("FINANCE_EMAILS", "financeiro@company.com").split(",")
+        self.operations_team = os.getenv("OPERATIONS_EMAILS", "operacoes@company.com").split(",")
+        self.support_team = os.getenv("SUPPORT_EMAILS", "suporte@company.com").split(",")
+        self.it_team = os.getenv("IT_EMAILS", "ti@company.com").split(",")
         
         self.slack_webhook = os.getenv("SLACK_WEBHOOK_URL", "")
         
@@ -76,7 +76,7 @@ class NotificationService:
                 </ul>
                 
                 <div class="footer">
-                    <p>Automação Seazone Tech | Sistema de Fechamento Mensal v1.0</p>
+                    <p>Automação  Tech | Sistema de Fechamento Mensal v1.0</p>
                     <p>Em caso de dúvidas, entre em contato com a equipe de TI</p>
                 </div>
             </div>
@@ -214,7 +214,7 @@ class NotificationService:
         """
         
         # Envia apenas para liderança
-        leadership_emails = os.getenv("LEADERSHIP_EMAILS", "diretoria@seazone.com").split(",")
+        leadership_emails = os.getenv("LEADERSHIP_EMAILS", "diretoria@company.com").split(",")
         self._send_email(
             to_emails=leadership_emails,
             subject=subject,
@@ -285,7 +285,7 @@ class NotificationService:
                 "attachments": [{
                     "color": color,
                     "text": message,
-                    "footer": "Automação Seazone",
+                    "footer": "Automação ",
                     "ts": int(datetime.now().timestamp())
                 }]
             }

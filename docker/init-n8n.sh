@@ -16,7 +16,7 @@ echo "✅ N8N está pronto!"
 
 # Credenciais do N8N (Basic Auth)
 N8N_USER="${N8N_USER:-admin}"
-N8N_PASSWORD="${N8N_PASSWORD:-seazone2025}"
+N8N_PASSWORD="${N8N_PASSWORD:-admin2025}"
 
 echo "📥 Importando workflow do arquivo..."
 

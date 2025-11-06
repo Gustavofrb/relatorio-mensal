@@ -47,12 +47,12 @@ def run_fechamento():
             }), 400
         
         # Garantir que os diretórios existem
-        os.makedirs('/app/data', exist_ok=True)
-        os.makedirs('/app/output', exist_ok=True)
+        os.makedirs('/app/src/data', exist_ok=True)
+        os.makedirs('/app/src/output', exist_ok=True)
         
         # Executar Python com o diretório correto
         cmd = [
-            'python3', '-m', 'main',
+            'python3', '-m', 'src.main',
             f'--month={month}'
         ]
         

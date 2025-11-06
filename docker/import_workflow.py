@@ -161,7 +161,7 @@ def import_workflow():
             print()
             print("⚠️  IMPORTANTE: Ative o workflow manualmente no N8N!")
             print("   1. Abra o N8N no navegador")
-            print("   2. Clique no workflow 'Fechamento Mensal Seazone'")
+            print("   2. Clique no workflow 'Fechamento Mensal '")
             print("   3. Clique no toggle verde no canto superior direito")
             return True
         else:
@@ -205,7 +205,7 @@ def main():
             print()
             print("⚠️  Verifique se o workflow está ativo:")
             print("   1. Abra http://localhost:5678")
-            print("   2. Clique no workflow 'Fechamento Mensal Seazone'")
+            print("   2. Clique no workflow 'Fechamento Mensal '")
             print("   3. Toggle deve estar verde (ativo)")
             sys.exit(0)
         else:

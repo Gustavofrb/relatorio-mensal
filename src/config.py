@@ -15,7 +15,7 @@ if env_path.exists():
                 if key not in os.environ:
                     os.environ[key] = value
 
-API_BASE_URL = os.getenv("API_BASE_URL", "https://desafio-tecnico-seazone-tech.vercel.app")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://desafio-tecnico--tech.vercel.app")
 API_TOKEN = os.getenv("API_TOKEN", "")
 
 if not API_TOKEN:
