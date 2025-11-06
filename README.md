@@ -920,4 +920,4 @@ Este projeto foi desenvolvido como parte de um desafio técnico para  Tech.
 
 ---
 
-**🎉 Sistema 100% funcional e pronto para escala!**
+
